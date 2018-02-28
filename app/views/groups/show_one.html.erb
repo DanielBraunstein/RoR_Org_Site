@@ -1,0 +1,13 @@
+<a href="/groups">Dashboard</a>
+<a href="../users/logout">Log Out</a>
+
+<%= @group.name %>
+<form action="/groups/<%= @join_or_leave %>/<%= @group.id %>" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= session[:_csrf_token] %>">
+    <button><%= @join_or_leave %> Group</button>
+</form>
+<p>Created By: <%= @owner_name %></p>
+<p>Members:</p>
+<% @group.members.each do |member| %>
+    <p><%=member.first_name%> <%= member.last_name %></p>
+<% end %>

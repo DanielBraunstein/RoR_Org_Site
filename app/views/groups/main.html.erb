@@ -1,0 +1,39 @@
+<a href="../users/logout">Log Out</a>
+
+<p>Hi <%= @user.first_name %> <%= @user.last_name %>!</p>
+
+<% if @errors && @errors.length != 0 %>
+    <% @errors.each do |error| %>
+        <h1><%= error %></h1>
+    <% end %>
+<% end %>
+
+
+<div id="group_list">
+    <%if @groups.length != 0 %>
+        <% temp = 0 %>
+        <% @groups.each do |group| %>
+            <% if group.user.id == @user.id %>
+                <form action="groups/destroy/<%= group.id %>" method="post">
+                <input type="hidden" name="authenticity_token" value="<%= session[:_csrf_token] %>">
+                <button> X </button>
+                </form>
+            <% end %>
+            <a href="/groups/<%= group.id %>">
+                <%= group.name %>
+            </a>
+            <p>Members: <%= @member_count.at(temp)%></p>
+            <p><%=group.desc%></p>
+            <% temp = temp + 1 %>
+        <% end %>
+    <% end %>
+</div>
+<div id="group_add">
+    Create a new organization
+    <form action="/groups/create" method="post">
+        Name:<input type="text" name="group[name]"><br>
+        Description:<input type="text" name="group[desc]"><br>
+        <input type="hidden" name="authenticity_token" value="<%= session[:_csrf_token] %>">
+        <button>Create</button>
+    </form>
+</div>
